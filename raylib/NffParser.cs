@@ -31,7 +31,8 @@ namespace raylib
       Polygon
     }
 
-    public static NffParserResult ParseFile(string path, int numThreads, int rayTraceDepth, int resolutionX, int resolutionY)
+    public static NffParserResult ParseFile(string path, int numThreads, int rayTraceDepth, int resolutionX,
+      int resolutionY)
     {
       var background = new Background(new ColorVector(0.0, 0.0, 0.0), 0.0);
       var lights = new List<Light>();
@@ -154,9 +155,10 @@ namespace raylib
                   shapes.Add(new TriangleShape(firstVert, prevVert, thisVert, currentMaterial, currentMaterial));
                 }
               }
+
               lookingFor = LookingFor.Instruction;
             }
-                        }
+          }
             break;
           case LookingFor.ViewpointFrom:
           {

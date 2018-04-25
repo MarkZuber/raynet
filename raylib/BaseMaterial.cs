@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace raylib
+﻿namespace raylib
 {
-    public abstract class BaseMaterial
+  public abstract class BaseMaterial
+  {
+    protected BaseMaterial(double gloss, double reflection, double refraction, double transparency)
     {
-      protected BaseMaterial(double gloss, double reflection, double refraction, double transparency)
-      {
-        Gloss = gloss;
-        Reflection = reflection;
-        Refraction = refraction;
-        Transparency = transparency;
-      }
-
-      public double Gloss { get; }
-      public double Reflection { get; }
-      public double Refraction { get; }
-      public double Transparency { get; }
-
-      public abstract ColorVector GetColor(double u, double v);
-      public abstract bool HasTexture { get; }
+      Gloss = gloss;
+      Reflection = reflection;
+      Refraction = refraction;
+      Transparency = transparency;
     }
+
+    public double Gloss { get; }
+    public double Reflection { get; }
+    public double Refraction { get; }
+    public double Transparency { get; }
+    public abstract bool HasTexture { get; }
+
+    public abstract ColorVector GetColor(double u, double v);
+  }
 }

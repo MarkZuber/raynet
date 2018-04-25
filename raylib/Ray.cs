@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace raylib
+﻿namespace raylib
 {
   public class Ray
   {

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace raylib
+﻿namespace raylib
 {
-    public interface ILight
-    {
-      int Id { get; }
-      PosVector Position { get; }
-      ColorVector Color { get; }      
-    }
+  public interface ILight
+  {
+    int Id { get; }
+    PosVector Position { get; }
+    ColorVector Color { get; }
+  }
 }

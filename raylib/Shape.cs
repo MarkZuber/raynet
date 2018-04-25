@@ -1,9 +1,7 @@
-﻿using ImageSharp.Processing;
-
-namespace raylib
+﻿namespace raylib
 {
   public abstract class Shape : IShape
-    {
+  {
     protected Shape(PosVector position)
     {
       Position = position;

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace raylib
+﻿namespace raylib
 {
-    public interface IShape
-    {
-      PosVector Position { get; }
+  public interface IShape
+  {
+    PosVector Position { get; }
 
-      int Id { get; }
+    int Id { get; }
 
-      IntersectionInfo Intersect(Ray ray);
-      BaseMaterial GetMaterial();
-      Bound CalculateBoundingPlanes(PosVector unitVector);
-    }
+    IntersectionInfo Intersect(Ray ray);
+    BaseMaterial GetMaterial();
+    Bound CalculateBoundingPlanes(PosVector unitVector);
+  }
 }

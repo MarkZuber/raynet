@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace raylib
+﻿namespace raylib
 {
   public class ChessboardMaterial : BaseMaterial
   {

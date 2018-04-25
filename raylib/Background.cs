@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace raylib
+﻿namespace raylib
 {
-    public class Background
+  public class Background
+  {
+    public Background(ColorVector color, double ambience)
     {
-      public Background(ColorVector color, double ambience)
-      {
-        Color = color;
-        Ambience = ambience;
-      }
-
-      public ColorVector Color { get; }
-      public double Ambience { get; }
+      Color = color;
+      Ambience = ambience;
     }
+
+    public ColorVector Color { get; }
+    public double Ambience { get; }
+  }
 }

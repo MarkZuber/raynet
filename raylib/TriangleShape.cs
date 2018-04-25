@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace raylib
+﻿namespace raylib
 {
   public class TriangleShape : Shape
   {
@@ -124,8 +122,8 @@ namespace raylib
 
     public override Bound CalculateBoundingPlanes(PosVector unitVector)
     {
-      double minD = unitVector.Dot(VA);
-      double maxD = unitVector.Dot(VB);
+      var minD = unitVector.Dot(VA);
+      var maxD = unitVector.Dot(VB);
 
       if (maxD < minD)
       {
@@ -135,7 +133,7 @@ namespace raylib
         minD = temp;
       }
 
-      double t = unitVector.Dot(VC);
+      var t = unitVector.Dot(VC);
       if (t < minD)
       {
         minD = t;

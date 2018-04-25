@@ -11,6 +11,10 @@ namespace raylib
       Z = z;
     }
 
+    public double X { get; }
+    public double Y { get; }
+    public double Z { get; }
+
     public static PosVector NewDefault()
     {
       return new PosVector(0.0, 0.0, 0.0);
@@ -31,10 +35,6 @@ namespace raylib
       return new PosVector(0.0, 0.0, 1.0);
     }
 
-    public double X { get; }
-    public double Y { get; }
-    public double Z { get; }
-
     public override string ToString()
     {
       return string.Format($"({X},{Y},{Z})");
@@ -52,7 +52,7 @@ namespace raylib
 
     public double MagnitudeSquared()
     {
-      return (X * X) + (Y * Y) + (Z * Z);
+      return X * X + Y * Y + Z * Z;
     }
 
     public static PosVector operator +(PosVector a, PosVector b)
@@ -77,7 +77,7 @@ namespace raylib
 
     public PosVector AddScaled(PosVector b, double scale)
     {
-      return new PosVector(X + (scale * b.X), Y + (scale * b.Y), Z + (scale * b.Z));
+      return new PosVector(X + scale * b.X, Y + scale * b.Y, Z + scale * b.Z);
     }
 
     public PosVector Cross(PosVector b)
@@ -87,7 +87,7 @@ namespace raylib
 
     public double Dot(PosVector b)
     {
-      return (X * b.X) + (Y * b.Y) + (Z * b.Z);
+      return X * b.X + Y * b.Y + Z * b.Z;
     }
   }
 }

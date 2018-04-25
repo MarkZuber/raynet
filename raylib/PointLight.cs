@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace raylib
+﻿namespace raylib
 {
-    public class PointLight : Light
+  public class PointLight : Light
+  {
+    /// <inheritdoc />
+    public PointLight(PosVector position, ColorVector color) : base(position, color)
     {
-      /// <inheritdoc />
-      public PointLight(PosVector position, ColorVector color) : base(position, color)
-      {
-      }
     }
+  }
 }
