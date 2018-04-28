@@ -1,4 +1,6 @@
-﻿namespace raylib
+﻿using System;
+
+namespace raylib
 {
   public class TriangleShape : Shape
   {
@@ -120,30 +122,38 @@
       return _frontMaterial;
     }
 
-    public override Bound CalculateBoundingPlanes(PosVector unitVector)
+    public override PosVector GetMinPoint()
     {
-      var minD = unitVector.Dot(VA);
-      var maxD = unitVector.Dot(VB);
+      double xmin = VA.X;
+      double ymin = VA.Y;
+      double zmin = VA.Z;
 
-      if (maxD < minD)
-      {
-        // swap
-        var temp = maxD;
-        maxD = minD;
-        minD = temp;
-      }
+      xmin = Math.Min(xmin, VB.X);
+      ymin = Math.Min(ymin, VB.Y);
+      zmin = Math.Min(zmin, VB.Z);
 
-      var t = unitVector.Dot(VC);
-      if (t < minD)
-      {
-        minD = t;
-      }
-      else
-      {
-        maxD = t;
-      }
+      xmin = Math.Min(xmin, VC.X);
+      ymin = Math.Min(ymin, VC.Y);
+      zmin = Math.Min(zmin, VC.Z);
 
-      return new Bound(minD, maxD);
+      return new PosVector(xmin - double.Epsilon, ymin - double.Epsilon, zmin - double.Epsilon);
+    }
+
+    public override PosVector GetMaxPoint()
+    {
+      double xmax = VA.X;
+      double ymax = VA.Y;
+      double zmax = VA.Z;
+
+      xmax = Math.Max(xmax, VB.X);
+      ymax = Math.Max(ymax, VB.Y);
+      zmax = Math.Max(zmax, VB.Z);
+
+      xmax = Math.Max(xmax, VC.X);
+      ymax = Math.Max(ymax, VC.Y);
+      zmax = Math.Max(zmax, VC.Z);
+
+      return new PosVector(xmax + double.Epsilon, ymax + double.Epsilon, zmax + double.Epsilon);
     }
   }
 }

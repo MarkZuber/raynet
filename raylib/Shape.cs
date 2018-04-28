@@ -11,9 +11,12 @@
     public PosVector Position { get; }
 
     public int Id { get; set; }
+    public BoundingBox BoundingBox { get; set; }
 
     public abstract IntersectionInfo Intersect(Ray ray);
     public abstract BaseMaterial GetMaterial();
-    public abstract Bound CalculateBoundingPlanes(PosVector unitVector);
+
+    public abstract PosVector GetMinPoint();
+    public abstract PosVector GetMaxPoint();
   }
 }

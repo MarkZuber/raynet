@@ -5,12 +5,12 @@ namespace raylib
 {
   public class RayTracer
   {
-    public RayTracer(Camera camera, RenderData renderData, Scene scene)
+    public RayTracer(Camera camera, RenderData renderData, Scene scene, bool useKdTree)
     {
       Camera = camera;
       RenderData = renderData;
       Scene = scene;
-      UseKdTree = false;
+      UseKdTree = useKdTree;
     }
 
     public Camera Camera { get; }
@@ -60,7 +60,7 @@ namespace raylib
 
     private IntersectionInfo TestIntersectionKd(Ray ray, int excludeId)
     {
-      throw new NotImplementedException();
+      return Scene.KdTree.FindIntersectionTree(ray);
     }
 
     private IntersectionInfo TestIntersection(Ray ray, int excludeId)

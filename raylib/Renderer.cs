@@ -9,20 +9,20 @@
       _renderData = renderData;
     }
 
-    public PixelArray Render(Camera camera, Scene scene)
+    public PixelArray Render(Camera camera, Scene scene, bool useKdTree)
     {
       if (_renderData.NumThreads <= 1)
       {
-        return RenderSingleThreaded(camera, scene);
+        return RenderSingleThreaded(camera, scene, useKdTree);
       }
 
-      return RenderMultiThreaded(camera, scene);
+      return RenderMultiThreaded(camera, scene, useKdTree);
     }
 
-    private PixelArray RenderSingleThreaded(Camera camera, Scene scene)
+    private PixelArray RenderSingleThreaded(Camera camera, Scene scene, bool useKdTree)
     {
       var pixelArray = new PixelArray(_renderData.Width, _renderData.Height);
-      var tracer = new RayTracer(camera, _renderData, scene);
+      var tracer = new RayTracer(camera, _renderData, scene, useKdTree);
 
       for (var y = 0; y < _renderData.Height; y++)
       {
@@ -36,9 +36,9 @@
       return pixelArray;
     }
 
-    private PixelArray RenderMultiThreaded(Camera camera, Scene scene)
+    private PixelArray RenderMultiThreaded(Camera camera, Scene scene, bool useKdTree)
     {
-      return PerLineThreadedRenderer.Render(new RayTracer(camera, _renderData, scene));
+      return PerLineThreadedRenderer.Render(new RayTracer(camera, _renderData, scene, useKdTree));
     }
   }
 }

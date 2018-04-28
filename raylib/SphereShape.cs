@@ -41,10 +41,14 @@ namespace raylib
       return _material;
     }
 
-    public override Bound CalculateBoundingPlanes(PosVector unitVector)
+    public override PosVector GetMinPoint()
     {
-      var cd = unitVector.Dot(Position);
-      return new Bound(cd + Radius, cd - Radius);
+      return new PosVector(Position.X - Radius - 1.0, Position.Y - Radius - 1.0, Position.Z - Radius - 1.0);
+    }
+
+    public override PosVector GetMaxPoint()
+    {
+      return new PosVector(Position.X + Radius + 1.0, Position.Y + Radius + 1.0, Position.Z + Radius + 1.0);
     }
   }
 }

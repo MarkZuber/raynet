@@ -30,15 +30,20 @@ namespace raylib
     public PosVector BoxMin { get; }
     public PosVector BoxMax { get; }
 
-    public static BoundingBox FromShape(Shape shape)
+    public bool IsWithinX(double val)
     {
-      return new BoundingBox(
-        shape.CalculateBoundingPlanes(PosVector.NewUnitX()),
-        shape.CalculateBoundingPlanes(PosVector.NewUnitY()),
-        shape.CalculateBoundingPlanes(PosVector.NewUnitZ())
-      );
+      return val > BoxMin.X && val < BoxMax.X;
     }
 
+    public bool IsWithinY(double val)
+    {
+      return val > BoxMin.Y && val < BoxMax.Y;
+    }
+
+    public bool IsWithinZ(double val)
+    {
+      return val > BoxMin.Z && val < BoxMax.Z;
+    }
 
     public BoundingBox GetEnlargedToEnclose(BoundingBox other)
     {
@@ -51,9 +56,9 @@ namespace raylib
 
     public bool IsPointInside(PosVector pos)
     {
-      return pos.X > BoxMin.X && pos.X < BoxMax.X &&
-             pos.Y > BoxMin.Y && pos.Y < BoxMax.Y &&
-             pos.Z > BoxMin.Z && pos.Z < BoxMax.Z;
+      return IsWithinX(pos.X) &&
+             IsWithinY(pos.Y) &&
+             IsWithinZ(pos.Z);
     }
 
     public bool IsWellFormed()

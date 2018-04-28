@@ -201,7 +201,7 @@ namespace raylib
         }
       }
 
-      return new NffParserResult(new Scene(background, shapes, lights),
+      return new NffParserResult(Scene.Create(background, shapes, lights),
         new RenderData(resolutionX, resolutionY, rayTraceDepth, numThreads, true),
         new Camera(cameraFrom, cameraAt, cameraUp, 50.0));
     }

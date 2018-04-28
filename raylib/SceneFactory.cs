@@ -90,7 +90,7 @@ namespace raylib
         )
       };
 
-      return new Scene(background, shapes, lights);
+      return Scene.Create(background, shapes, lights);
     }
   }
 }
