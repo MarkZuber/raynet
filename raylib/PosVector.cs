@@ -40,9 +40,14 @@ namespace raylib
       return string.Format($"({X},{Y},{Z})");
     }
 
-    public PosVector Normalize()
+    public static double CosVectors(PosVector v1, PosVector v2)
     {
-      return this / Magnitude();
+      return v1.Dot(v2) / Math.Sqrt(v1.MagnitudeSquared() * v2.MagnitudeSquared());
+    }
+
+    public double MagnitudeSquared()
+    {
+      return this.Dot(this);
     }
 
     public double Magnitude()
@@ -50,9 +55,9 @@ namespace raylib
       return Math.Sqrt(MagnitudeSquared());
     }
 
-    public double MagnitudeSquared()
+    public PosVector Normalize()
     {
-      return X * X + Y * Y + Z * Z;
+      return this / Magnitude();
     }
 
     public static PosVector operator +(PosVector a, PosVector b)

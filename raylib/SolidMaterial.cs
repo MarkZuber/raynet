@@ -2,8 +2,8 @@
 {
   public class SolidMaterial : BaseMaterial
   {
-    public SolidMaterial(double gloss, double reflection, double refraction, double transparency, ColorVector color)
-      : base(gloss, reflection, refraction, transparency)
+    public SolidMaterial(double kAmbient, double kDiffuse, double kSpecular, double kReflection, double kTransparent, double refraction, double gloss, ColorVector color)
+      : base(kAmbient, kDiffuse, kSpecular, kReflection, kTransparent, refraction, gloss)
     {
       Color = color;
     }

@@ -43,7 +43,7 @@ namespace raylib
 
       var lookingFor = LookingFor.Instruction;
 
-      var currentMaterial = new SolidMaterial(0.0, 0.0, 0.0, 0.0, new ColorVector(0.0, 0.0, 0.0));
+      var currentMaterial = new SolidMaterial(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, new ColorVector(0.0, 0.0, 0.0));
 
       var polyVectors = new List<PosVector>();
       var currentItemCounter = 0;
@@ -94,10 +94,13 @@ namespace raylib
               // Usually, 0 <= Kd <= 1 and 0 <= Ks <= 1, though it is not required that Kd + Ks = 1. Note that transmitting objects (T > 0) are considered to have two sides for algorithms that need these (normally, objects have one side).
               // todo: i don't think i'm assigning the correct values into my solidmaterial yet
               currentMaterial = new SolidMaterial(
-                double.Parse(split[6]),
-                double.Parse(split[5]),
-                double.Parse(split[8]),
-                double.Parse(split[7]),
+                0.0, // kAmbient
+                double.Parse(split[4]),  // kDiffuse
+                double.Parse(split[5]),  // kSpecular
+                double.Parse(split[7]),  // kReflection
+                double.Parse(split[8]),  // kTransparent
+                double.Parse(split[8]),  // refraction    -- todo: which is which here?
+                double.Parse(split[6]),  // gloss
                 new ColorVector(double.Parse(split[1]), double.Parse(split[2]), double.Parse(split[3]))
               );
             }

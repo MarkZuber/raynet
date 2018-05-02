@@ -8,7 +8,7 @@ namespace raylib
 {
   public static class PerLineThreadedRenderer
   {
-    public static PixelArray Render(RayTracer rayTracer)
+    public static PixelArray Render(IRayTracer rayTracer)
     {
       ThreadPool.SetMinThreads(rayTracer.RenderData.NumThreads * 3, rayTracer.RenderData.NumThreads * 3);
 
@@ -37,7 +37,7 @@ namespace raylib
       return pixelArray;
     }
 
-    private static void RenderFunc(RayTracer rayTracer, ConcurrentQueue<int> rowQueue,
+    private static void RenderFunc(IRayTracer rayTracer, ConcurrentQueue<int> rowQueue,
       ConcurrentQueue<RenderLineResult> resultQueue, AutoResetEvent queueDataAvailableEvent)
     {
       while (rowQueue.TryDequeue(out var y))

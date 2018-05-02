@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace raylib
 {
-  public class RayTracer
+  public class RayTracer : IRayTracer
   {
     public RayTracer(Camera camera, RenderData renderData, Scene scene, bool useKdTree)
     {
@@ -90,7 +90,7 @@ namespace raylib
       {
         if (Scene.TryGetShape(intersectionInfo.ElementId, out var shape))
         {
-          if (shape.GetMaterial().Reflection > 0.0)
+          if (shape.GetMaterial().KReflection > 0.0)
           {
             var reflectionRay = GetReflectionRay(intersectionInfo.Position, intersectionInfo.Normal, ray.Direction);
             var refl = TestIntersection(reflectionRay, shape.Id);
@@ -98,7 +98,7 @@ namespace raylib
               ? RayTrace(refl, reflectionRay, depth + 1)
               : Scene.Background.Color;
 
-            return currentColor.Blend(reflColor, shape.GetMaterial().Reflection);
+            return currentColor.Blend(reflColor, shape.GetMaterial().KReflection);
           }
         }
       }
@@ -113,7 +113,7 @@ namespace raylib
       {
         if (Scene.TryGetShape(intersectionInfo.ElementId, out var shape))
         {
-          if (shape.GetMaterial().Transparency > 0.0)
+          if (shape.GetMaterial().KTransparent > 0.0)
           {
             var refractionRay = GetRefractionRay(intersectionInfo.Position, intersectionInfo.Normal, ray.Direction,
               shape.GetMaterial().Refraction);
@@ -137,7 +137,7 @@ namespace raylib
               refractedColor = Scene.Background.Color;
             }
 
-            return currentColor.Blend(refractedColor, shape.GetMaterial().Transparency);
+            return currentColor.Blend(refractedColor, shape.GetMaterial().KTransparent);
           }
         }
       }
@@ -179,7 +179,7 @@ namespace raylib
             {
               if (shadowShape.Id != shape.Id)
               {
-                var trans = shadowShape.GetMaterial().Transparency;
+                var trans = shadowShape.GetMaterial().KTransparent;
                 var transPower = Math.Pow(trans, 0.5);
                 color = color * (0.5 + 0.5 * transPower);
               }

@@ -54,14 +54,14 @@
     public override PosVector GetMinPoint()
     {
       // todo: fix this.  it's an infinite plane so it doesn't really have a bounding box.
-      return new PosVector(-10.0, -10.0, -10.0);
+      return new PosVector(-1000.0, -1000.0, -1000.0);
     }
 
     /// <inheritdoc />
     public override PosVector GetMaxPoint()
     {
       // todo: fix this.  it's an infinite plane so it doesn't really have a bounding box.
-      return new PosVector(10.0, 10.0, 10.0);
+      return new PosVector(1000.0, 1000.0, 1000.0);
     }
   }
 }

@@ -9,6 +9,13 @@
       B = b;
     }
 
+    public ColorVector()
+    {
+      R = 0.0;
+      G = 0.0;
+      B = 0.0;
+    }
+
     public double R { get; }
     public double G { get; }
     public double B { get; }
@@ -41,6 +48,12 @@
     public ColorVector Blend(ColorVector other, double weight)
     {
       return this * (1.0 - weight) + other * (1.0 - weight);
+    }
+
+    public ColorVector Mix(ColorVector other)
+    {
+      // todo: need to verify this is correct
+      return this * other;
     }
 
     private double ClampValue(double val)

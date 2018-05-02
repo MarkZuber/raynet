@@ -6,8 +6,8 @@
     private readonly ColorVector _colorOdd;
     private readonly double _scale;
 
-    public ChessboardMaterial(double gloss, double reflection, double refraction, double transparency,
-      ColorVector colorEven, ColorVector colorOdd, double scale) : base(gloss, reflection, refraction, transparency)
+    public ChessboardMaterial(double kAmbient, double kDiffuse, double kSpecular, double kReflection, double kTransparent, double refraction, double gloss,
+      ColorVector colorEven, ColorVector colorOdd, double scale) : base(kAmbient, kDiffuse, kSpecular, kReflection, kTransparent, refraction, gloss)
     {
       _colorEven = colorEven;
       _colorOdd = colorOdd;

@@ -3,10 +3,19 @@
   public class Renderer
   {
     private readonly RenderData _renderData;
+    private readonly bool _useExTracer;
 
-    public Renderer(RenderData renderData)
+    public Renderer(RenderData renderData, bool useEx)
     {
       _renderData = renderData;
+      _useExTracer = useEx;
+    }
+
+    private IRayTracer CreateRayTracer(Camera camera, RenderData renderData, Scene scene, bool useKdTree)
+    {
+      return _useExTracer
+               ? new RayTracerEx(camera, renderData, scene, useKdTree) as IRayTracer
+               : new RayTracer(camera, renderData, scene, useKdTree) as IRayTracer;
     }
 
     public PixelArray Render(Camera camera, Scene scene, bool useKdTree)
@@ -22,7 +31,7 @@
     private PixelArray RenderSingleThreaded(Camera camera, Scene scene, bool useKdTree)
     {
       var pixelArray = new PixelArray(_renderData.Width, _renderData.Height);
-      var tracer = new RayTracer(camera, _renderData, scene, useKdTree);
+      var tracer = CreateRayTracer(camera, _renderData, scene, useKdTree);
 
       for (var y = 0; y < _renderData.Height; y++)
       {
@@ -38,7 +47,7 @@
 
     private PixelArray RenderMultiThreaded(Camera camera, Scene scene, bool useKdTree)
     {
-      return PerLineThreadedRenderer.Render(new RayTracer(camera, _renderData, scene, useKdTree));
+      return PerLineThreadedRenderer.Render(CreateRayTracer(camera, _renderData, scene, useKdTree));
     }
   }
 }

@@ -1,60 +1,86 @@
 ﻿using System;
+using System.IO;
 using raylib;
 
 namespace rayapp
 {
+  public class Harness
+  {
+    public Harness()
+    {
+      UseKdTree = true;
+      UseExTracer = false;
+      RenderData = new RenderData(500, 500, 5, 8, true);
+      NffDirectory = @"E:\repos\rustray\nff";
+      OutputDirectory = @"e:\render_out";
+    }
+
+    public bool UseKdTree { get; set; }
+    public bool UseExTracer { get; set; }
+    public RenderData RenderData { get; set; }
+    public string OutputDirectory { get; set; }
+    public string NffDirectory { get; set; }
+
+    public void RenderBasics()
+    {
+      var scene = SceneFactory.CreateBasicScene();
+      var camera = new Camera(
+        new PosVector(7.5, 7.5, 2.3),
+        new PosVector(0.0, 0.0, 0.0),
+        new PosVector(0.0, 0.0, 1.0),
+        50.0);
+      Render(scene, camera, "basic");
+    }
+
+    public void RenderMarblesAxis()
+    {
+      var scene = SceneFactory.CreateMarblesAxisScene();
+      var camera = new Camera(
+        new PosVector(50.0, 30.0, 50.0),
+        new PosVector(-0.1, 0.1, 0.0),
+        new PosVector(0.0, 0.0, 1.0),
+        50.0);
+      Render(scene, camera, "marblesaxis");
+    }
+
+    public void RenderNff(string filename)
+    {
+      string filePath = Path.Combine(NffDirectory, filename);
+      var nffResult = NffParser.ParseFile(filePath, 8, 5, 500, 500);
+      string fileNameNoExt = Path.GetFileNameWithoutExtension(filePath);
+      Render(nffResult.Scene, nffResult.Camera, fileNameNoExt);
+    }
+
+    private void Render(Scene scene, Camera camera, string name)
+    {
+      var renderer = new Renderer(RenderData, UseExTracer);
+      using (new LogTimer($"Render {name}"))
+      {
+        var pixelArray = renderer.Render(camera, scene, UseKdTree);
+        string filename = UseExTracer ? $"{name}_scene_ex.png" : $"{name}_scene.png";
+        Directory.CreateDirectory(OutputDirectory);
+        pixelArray.SaveAsFile(Path.Combine(OutputDirectory, filename));
+      }
+    }
+  }
+
   internal class Program
   {
     private static void Main(string[] args)
     {
       Console.WriteLine("RayApp...");
 
-      bool useKdTree = true;
-      bool renderBasic = false;
-      bool renderBalls = false;
-      bool renderJacks = true;
+      var harness = new Harness();
+      harness.RenderBasics();
+      harness.RenderMarblesAxis();
+      //harness.RenderNff("balls1.nff");
+      //harness.RenderNff("jacks1.nff");
 
-      if (renderBasic)
-      {
-        var scene = SceneFactory.CreateBasicScene();
-        var camera = new Camera(
-          new PosVector(7.5, 7.5, 2.3),
-          new PosVector(0.0, 0.0, 0.0),
-          new PosVector(0.0, 0.0, 1.0),
-          50.0);
-        var renderData = new RenderData(1500, 1500, 5, 8, true);
-
-        var renderer = new Renderer(renderData);
-        using (new LogTimer("Render BasicScene"))
-        {
-          var pixelArray = renderer.Render(camera, scene, useKdTree);
-          pixelArray.SaveAsFile(@"e:\basicscene.png");
-        }
-      }
-
-      if (renderBalls)
-      {
-        var nffResult = NffParser.ParseFile(@"E:\repos\rustray\nff\balls1.nff", 8, 5, 500, 500);
-
-        var renderer = new Renderer(nffResult.RenderData);
-        using (new LogTimer("Render Balls"))
-        {
-          var pixelArray = renderer.Render(nffResult.Camera, nffResult.Scene, useKdTree);
-          pixelArray.SaveAsFile(@"e:\balls1.png");
-        }
-      }
-
-      if (renderJacks)
-      {
-        var nffResult = NffParser.ParseFile(@"E:\repos\rustray\nff\jacks4.nff", 8, 5, 500, 500);
-
-        var renderer = new Renderer(nffResult.RenderData);
-        using (new LogTimer("Render Jacks"))
-        {
-          var pixelArray = renderer.Render(nffResult.Camera, nffResult.Scene, useKdTree);
-          pixelArray.SaveAsFile(@"e:\jacks4.png");
-        }
-      }
+      harness.UseExTracer = true;
+      harness.RenderBasics();
+      harness.RenderMarblesAxis();
+      //harness.RenderNff("balls1.nff");
+      //harness.RenderNff("jacks1.nff");
 
       Console.WriteLine("DONE!");
     }
