@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "raylib", "raylib\raylib.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "raycon", "raycon\raycon.csproj", "{0DC5E8D6-2470-4EE2-88E3-4478499FC340}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rayapp", "rayapp\rayapp.csproj", "{82E55E04-9105-4525-BE02-B5F8CCABD485}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,18 @@ Global
 		{0DC5E8D6-2470-4EE2-88E3-4478499FC340}.Release|x64.Build.0 = Release|Any CPU
 		{0DC5E8D6-2470-4EE2-88E3-4478499FC340}.Release|x86.ActiveCfg = Release|Any CPU
 		{0DC5E8D6-2470-4EE2-88E3-4478499FC340}.Release|x86.Build.0 = Release|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Debug|x64.Build.0 = Debug|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Debug|x86.Build.0 = Debug|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Release|x64.ActiveCfg = Release|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Release|x64.Build.0 = Release|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Release|x86.ActiveCfg = Release|Any CPU
+		{82E55E04-9105-4525-BE02-B5F8CCABD485}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
