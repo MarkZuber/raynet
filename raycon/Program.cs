@@ -29,7 +29,7 @@ namespace raycon
         new PosVector(0.0, 0.0, 0.0),
         new PosVector(0.0, 0.0, 1.0),
         50.0);
-      Render(scene, camera, "basic");
+      Render(new PixelArray(RenderData.Width, RenderData.Height), scene, camera, "basic");
     }
 
     public void RenderMarblesAxis()
@@ -40,7 +40,7 @@ namespace raycon
         new PosVector(-0.1, 0.1, 0.0),
         new PosVector(0.0, 0.0, 1.0),
         50.0);
-      Render(scene, camera, "marblesaxis");
+      Render(new PixelArray(RenderData.Width, RenderData.Height), scene, camera, "marblesaxis");
     }
 
     public void RenderNff(string filename)
@@ -48,15 +48,15 @@ namespace raycon
       string filePath = Path.Combine(NffDirectory, filename);
       var nffResult = NffParser.ParseFile(filePath, 8, 5, 500, 500);
       string fileNameNoExt = Path.GetFileNameWithoutExtension(filePath);
-      Render(nffResult.Scene, nffResult.Camera, fileNameNoExt);
+      Render(new PixelArray(RenderData.Width, RenderData.Height), nffResult.Scene, nffResult.Camera, fileNameNoExt);
     }
 
-    private void Render(Scene scene, Camera camera, string name)
+    private void Render(PixelArray pixelArray, Scene scene, Camera camera, string name)
     {
       var renderer = new Renderer(RenderData, UseExTracer);
       using (new LogTimer($"Render {name}"))
       {
-        var pixelArray = renderer.Render(camera, scene, UseKdTree);
+        renderer.Render(pixelArray, camera, scene, UseKdTree);
         string filename = UseExTracer ? $"{name}_scene_ex.png" : $"{name}_scene.png";
         Directory.CreateDirectory(OutputDirectory);
         pixelArray.SaveAsFile(Path.Combine(OutputDirectory, filename));

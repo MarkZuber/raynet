@@ -1,11 +1,14 @@
 ﻿using System;
+using System.IO;
 using ImageSharp;
+using ImageSharp.Formats;
 
 namespace raylib
 {
   public class PixelArray : IDisposable
   {
     private readonly Image<Rgba32> _image;
+    private readonly object _lock = new object();
 
     public PixelArray(int width, int height)
     {
@@ -26,7 +29,10 @@ namespace raylib
     public void SetPixelColor(int x, int y, ColorVector color)
     {
       // Console.WriteLine($"Setting ({x}, {y}) to {color}");
-      _image[x, y] = ClampToPixel(color);
+      lock (_lock)
+      {
+        _image[x, y] = ClampToPixel(color);
+      }
     }
 
     private byte ColorToByte(double c)
@@ -42,7 +48,20 @@ namespace raylib
 
     public void SaveAsFile(string outputFilePath)
     {
-      _image.Save(outputFilePath);
+      lock (_lock)
+      {
+        _image.Save(outputFilePath);
+      }
+    }
+
+    public MemoryStream SaveToStreamAsPng()
+    {
+      lock (_lock)
+      {
+        var ms = new MemoryStream();
+        // _image.SaveAsPng(ms);
+        return ms;
+      }
     }
   }
 }

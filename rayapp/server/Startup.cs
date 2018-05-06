@@ -21,6 +21,8 @@ namespace rayapp
   {
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddMvc();
+
       // Add OpenID Connect server to produce JWT access tokens.
       services.AddAuthenticationServer();
 
@@ -64,6 +66,13 @@ namespace rayapp
         });
 
       app.UseStaticFiles();
+
+      app.UseMvc(routes =>
+      {
+        routes.MapRoute(
+          name: "default",
+          template: "{controller=Home}/{action=Index}/{id?}");
+      });
 
       app.Run(
         async (context) =>

@@ -34,11 +34,6 @@ namespace rayapp
             ViewUrl = nameof(Route.Dashboard)
           },
           new RouteTemplate(nameof(Route.Dashboard)),
-          new RouteTemplate(nameof(Route.FormPage))
-          {
-            UrlPattern = $"{FormPagePath}(/:id)"
-          },
-          new RouteTemplate(nameof(Route.TablePage))
         });
     }
 
@@ -64,8 +59,6 @@ namespace rayapp
     {
       Home,
       Dashboard,
-      FormPage,
-      TablePage
     };
   }
 }
