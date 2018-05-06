@@ -4,7 +4,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "raylib", "raylib\raylib.csproj", "{1F6545F0-04B1-4DB6-AEF6-C5A3763E6379}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rayapp", "rayapp\rayapp.csproj", "{0DC5E8D6-2470-4EE2-88E3-4478499FC340}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "raycon", "raycon\raycon.csproj", "{0DC5E8D6-2470-4EE2-88E3-4478499FC340}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 using System.IO;
 using raylib;
 
-namespace rayapp
+namespace raycon
 {
   public class Harness
   {
@@ -68,7 +68,7 @@ namespace rayapp
   {
     private static void Main(string[] args)
     {
-      Console.WriteLine("RayApp...");
+      Console.WriteLine("RayCon...");
 
       var harness = new Harness();
       harness.RenderBasics();
