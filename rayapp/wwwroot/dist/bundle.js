@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4e83a0635c3fe811a3a2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "0022f2e751d66db3a318"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -13832,7 +13832,7 @@ var Dashboard = function (_React$Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15' },
+              { classname: '' },
               _react2.default.createElement(_ImageRender2.default, { data: this.state.ImageRender })
             )
           )
@@ -42841,7 +42841,7 @@ var ImageRender = function ImageRender(props) {
     var styles = {
         paper: {
             backgroundColor: _colors.purple500,
-            height: 150
+            height: 900
         },
         div: {
             height: 95,
@@ -42902,7 +42902,7 @@ var ImageRender = function ImageRender(props) {
         _react2.default.createElement(
             'div',
             { style: styles.div },
-            _react2.default.createElement('img', { src: props.data.ImageRelativeUrl, alt: 'foo', width: '100', height: '100' })
+            _react2.default.createElement('img', { src: props.data.ImageRelativeUrl, alt: 'foo', width: '800', height: '800' })
         )
     );
 };

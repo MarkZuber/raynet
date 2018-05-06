@@ -13,7 +13,7 @@ const ImageRender = (props) => {
     const styles = {
         paper: {
             backgroundColor: purple500,
-            height: 150
+            height: 900
         },
         div: {
             height: 95,
@@ -70,7 +70,7 @@ const ImageRender = (props) => {
             } > Traffic 
             </div>  
             <div style={ styles.div }>
-                <img src={ props.data.ImageRelativeUrl } alt="foo" width="100" height="100"/>
+                <img src={ props.data.ImageRelativeUrl } alt="foo" width="800" height="800"/>
             </div > 
         </Paper>  
     );
