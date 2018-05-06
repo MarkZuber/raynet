@@ -72,7 +72,7 @@ class LoginPage extends React.Component {
             <Paper style={styles.paper}>
               <div>
                 <span style={styles.logo}></span>
-                <span style={styles.text}>dotNetify</span>
+                <span style={styles.text}>Zube RayApp</span>
               </div>
               <form>
                 <TextField

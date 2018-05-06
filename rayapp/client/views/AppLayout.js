@@ -59,7 +59,7 @@ class AppLayout extends React.Component {
           />
           <Sidebar
             vm={this.vm}
-            logoTitle="dotNetify"
+            logoTitle="Ray App"
             open={sidebarOpen}
             userAvatarUrl={userAvatarUrl}
             menus={Menus}

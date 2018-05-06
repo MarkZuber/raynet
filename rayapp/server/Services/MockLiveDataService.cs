@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// <copyright file="MockLiveDataService.cs" company="ZubeNET">
+//   Copyright...
+// </copyright>
+// -----------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,147 +11,133 @@ using System.Reactive.Linq;
 
 namespace rayapp
 {
-   public interface ILiveDataService
-   {
-      IObservable<string> Download { get; }
-      IObservable<string> Upload { get; }
-      IObservable<string> Latency { get; }
-      IObservable<int> Users { get; }
-      IObservable<int[]> Traffic { get; }
-      IObservable<RenderDataModel> ImageRender { get; }
+  public interface ILiveDataService
+  {
+    //IObservable<string> Download { get; }
+    //IObservable<string> Upload { get; }
+    //IObservable<string> Latency { get; }
+    //IObservable<int> Users { get; }
+    //IObservable<int[]> Traffic { get; }
+    IObservable<RenderDataModel> ImageRender { get; }
 
-      IObservable<int[]> ServerUsage { get; }
-      IObservable<int[]> Utilization { get; }
-      IObservable<Activity> RecentActivity { get; }
-   }
+    //IObservable<int[]> ServerUsage { get; }
+    //IObservable<int[]> Utilization { get; }
+    //IObservable<Activity> RecentActivity { get; }
+  }
 
-   public class Activity
-   {
-      public int Id { get; set; }
-      public string PersonName { get; set; }
-      public string Status { get; set; }
-   }
+  //public class Activity
+  //{
+  //  public int Id { get; set; }
+  //  public string PersonName { get; set; }
+  //  public string Status { get; set; }
+  //}
 
-   public class MockLiveDataService : ILiveDataService
-   {
-      private readonly Random _random = new Random();
+  public class MockLiveDataService : ILiveDataService
+  {
+    //private readonly Dictionary<int, string> _activities = new Dictionary<int, string>
+    //{
+    //  {1, "Offline"},
+    //  {2, "Active"},
+    //  {3, "Busy"},
+    //  {4, "Away"},
+    //  {5, "In a Call"}
+    //};
 
-      private readonly Dictionary<int, string> _activities = new Dictionary<int, string> {
-            {1, "Offline"},
-            {2, "Active"},
-            {3, "Busy"},
-            {4, "Away"},
-            {5, "In a Call"}
-        };
+    private readonly Random _random = new Random();
 
-      public IObservable<string> Download { get; }
+    public MockLiveDataService(
+      //IEmployeeService employeeService, 
+      IRenderService renderService)
+    {
+      //Download = Observable.Interval(TimeSpan.FromMilliseconds(900)).StartWith(0).Select(
+      //  _ => $"{Math.Round(_random.Next(15, 30) + _random.NextDouble(), 1)} Mb/s");
 
-      public IObservable<string> Upload { get; }
+      //Upload = Observable.Interval(TimeSpan.FromMilliseconds(800)).StartWith(0).Select(
+      //  _ => $"{Math.Round(_random.Next(5, 7) + _random.NextDouble(), 1)} Mb/s");
 
-      public IObservable<string> Latency { get; }
+      //Latency = Observable.Interval(TimeSpan.FromSeconds(1)).StartWith(0)
+      //                    .Select(_ => $"{_random.Next(50, 200)} ms");
 
-      public IObservable<int> Users { get; }
+      //Users = Observable.Interval(TimeSpan.FromMilliseconds(1200)).StartWith(0)
+      //                  .Select(_ => _random.Next(200, 300));
 
-      public IObservable<int[]> Traffic { get; }
+      //Traffic = Observable.Interval(TimeSpan.FromMilliseconds(600)).StartWith(0).Select(
+      //  _ => Enumerable.Range(1, 7).Select(i => _random.Next(1000, 10000)).ToArray());
 
-      public IObservable<RenderDataModel> ImageRender {get;}
+      //ServerUsage = Observable.Interval(TimeSpan.FromMilliseconds(400)).StartWith(0).Select(
+      //  _ => Enumerable.Range(1, 10).Select(i => _random.Next(1, 100)).ToArray());
 
-      public IObservable<int[]> ServerUsage { get; }
+      //Utilization = Observable.Interval(TimeSpan.FromMilliseconds(800)).StartWith(0).Select(
+      //  _ => Enumerable.Range(1, 3).Select(i => _random.Next(1, 100)).ToArray());
 
-      public IObservable<int[]> Utilization { get; }
-
-      public IObservable<Activity> RecentActivity { get; }
-
-      public MockLiveDataService(IEmployeeService employeeService, IRenderService renderService)
+      var images = new List<string>
       {
-         Download = Observable
-            .Interval(TimeSpan.FromMilliseconds(900))
-            .StartWith(0)
-            .Select(_ => $"{Math.Round(_random.Next(15, 30) + _random.NextDouble(), 1)} Mb/s");
+        "https://s3.envato.com/files/131529625/15_Confetti_backgrounds%20-screen/Confetti_background-11.jpg",
+        "https://tse2.mm.bing.net/th?id=OIP.dqMe78yE0C3cFnVoGQa_aQHaFj&pid=Api",
+        "http://3.bp.blogspot.com/-xLgRRD58ifc/U7K0D1XEWqI/AAAAAAAAOEs/_RQEMUnV2A0/s1600/Desktop+Background+wallpapers+(23).jpg"
+      };
 
-         Upload = Observable
-            .Interval(TimeSpan.FromMilliseconds(800))
-            .StartWith(0)
-            .Select(_ => $"{Math.Round(_random.Next(5, 7) + _random.NextDouble(), 1)} Mb/s");
+      ImageRender = Observable.Interval(TimeSpan.FromSeconds(1)).StartWith(0)
+                              .Select(_ => GetRenderStatus(renderService)).Select(
+                                renderDataModel => new RenderDataModel
+                                {
+                                  RenderName = renderDataModel.RenderName,
+                                  IsRendering = renderDataModel.IsRendering,
+                                  PercentComplete = _random.Next(1, 100),
+                                  ImageRelativeUrl = images[_random.Next(0, images.Count)]
+                                });
 
-         Latency = Observable
-            .Interval(TimeSpan.FromSeconds(1))
-            .StartWith(0)
-            .Select(_ => $"{_random.Next(50, 200)} ms");
+      //RecentActivity = Observable.Interval(TimeSpan.FromSeconds(2)).StartWith(0)
+      //                           .Select(_ => GetRandomEmployee(employeeService)).Select(
+      //                             employee => new Activity
+      //                             {
+      //                               Id = employee.Id,
+      //                               PersonName = employee.FullName,
+      //                               Status = _activities[_random.Next(1, 6)]
+      //                             }).StartWith(
+      //                             Enumerable.Range(1, 4).Select(_ => GetRandomEmployee(employeeService))
+      //                                       .Select(
+      //                                         employee => new Activity
+      //                                         {
+      //                                           Id = employee.Id,
+      //                                           PersonName = employee.FullName,
+      //                                           Status = _activities[_random.Next(1, 6)],
+      //                                         }).ToArray());
+    }
 
-         Users = Observable
-            .Interval(TimeSpan.FromMilliseconds(1200))
-            .StartWith(0)
-            .Select(_ => _random.Next(200, 300));
+    //public IObservable<string> Download { get; }
 
-         Traffic = Observable
-            .Interval(TimeSpan.FromMilliseconds(600))
-            .StartWith(0)
-            .Select(_ => Enumerable.Range(1, 7).Select(i => _random.Next(1000, 10000)).ToArray());
+    //public IObservable<string> Upload { get; }
 
-         ServerUsage = Observable
-            .Interval(TimeSpan.FromMilliseconds(400))
-            .StartWith(0)
-            .Select(_ => Enumerable.Range(1, 10).Select(i => _random.Next(1, 100)).ToArray());
+    //public IObservable<string> Latency { get; }
 
-         Utilization = Observable
-            .Interval(TimeSpan.FromMilliseconds(800))
-            .StartWith(0)
-            .Select(_ => Enumerable.Range(1, 3).Select(i => _random.Next(1, 100)).ToArray());
+    //public IObservable<int> Users { get; }
 
-        var images = new List<string>
-        {
-          "https://s3.envato.com/files/131529625/15_Confetti_backgrounds%20-screen/Confetti_background-11.jpg",
-          "https://tse2.mm.bing.net/th?id=OIP.dqMe78yE0C3cFnVoGQa_aQHaFj&pid=Api",
-          "http://3.bp.blogspot.com/-xLgRRD58ifc/U7K0D1XEWqI/AAAAAAAAOEs/_RQEMUnV2A0/s1600/Desktop+Background+wallpapers+(23).jpg"
-        };
+    //public IObservable<int[]> Traffic { get; }
 
-         ImageRender = Observable
-            .Interval(TimeSpan.FromSeconds(1))
-            .StartWith(0)
-            .Select(_ => GetRenderStatus(renderService))
-            .Select(renderDataModel => new RenderDataModel
-            {
-                  RenderName = renderDataModel.RenderName,
-                  IsRendering = renderDataModel.IsRendering,
-                  PercentComplete = _random.Next(1, 100),
-              ImageRelativeUrl = images[_random.Next(0, images.Count)]
+    public IObservable<RenderDataModel> ImageRender { get; }
 
-            });
+    //public IObservable<int[]> ServerUsage { get; }
 
-         RecentActivity = Observable
-            .Interval(TimeSpan.FromSeconds(2))
-            .StartWith(0)
-            .Select(_ => GetRandomEmployee(employeeService))
-            .Select(employee => new Activity
-            {
-               Id = employee.Id,
-               PersonName = employee.FullName,
-               Status = _activities[_random.Next(1, 6)]
-            })
-            .StartWith(
-               Enumerable.Range(1, 4)
-               .Select(_ => GetRandomEmployee(employeeService))
-               .Select(employee => new Activity
-               {
-                  Id = employee.Id,
-                  PersonName = employee.FullName,
-                  Status = _activities[_random.Next(1, 6)],
-               })
-               .ToArray()
-            );
-      }
-      
-      private RenderDataModel GetRenderStatus(IRenderService renderService)
-      {
-            RenderDataModel renderDataModel = renderService.GetRenderDataModel();
-            return renderDataModel;
-      }
-      private EmployeeModel GetRandomEmployee(IEmployeeService employeeService) 
-      {
-         EmployeeModel record;
-         while ((record = employeeService.GetById(_random.Next(1, 20))) == null );
-         return record;
-      }
-   }
+    //public IObservable<int[]> Utilization { get; }
+
+    //public IObservable<Activity> RecentActivity { get; }
+
+    private RenderDataModel GetRenderStatus(IRenderService renderService)
+    {
+      RenderDataModel renderDataModel = renderService.GetRenderDataModel();
+      return renderDataModel;
+    }
+
+    //private EmployeeModel GetRandomEmployee(IEmployeeService employeeService)
+    //{
+    //  EmployeeModel record;
+    //  while ((record = employeeService.GetById(_random.Next(1, 20))) == null)
+    //  {
+    //    ;
+    //  }
+
+    //  return record;
+    //}
+  }
 }
