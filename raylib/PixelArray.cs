@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using ImageSharp;
-using ImageSharp.Formats;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats;
 
 namespace raylib
 {
