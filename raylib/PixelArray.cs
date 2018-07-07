@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -6,7 +7,7 @@ using SixLabors.ImageSharp.Formats;
 
 namespace raylib
 {
-  public class PixelArray : IDisposable
+  public class PixelArray : IPixelArray
   {
     private readonly Image<Rgba32> _image;
     private readonly object _lock = new object();
@@ -21,6 +22,14 @@ namespace raylib
     public int Width { get; }
     public int Height { get; }
 
+    public void Lock()
+    {
+    }
+
+    public void Unlock()
+    {
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {
@@ -33,6 +42,18 @@ namespace raylib
       lock (_lock)
       {
         _image[x, y] = ClampToPixel(color);
+      }
+    }
+
+    /// <inheritdoc />
+    public void SetPixelRowColors(int y, List<ColorVector> xPixels)
+    {
+      lock (_lock)
+      {
+        for (int x = 0; x < Width; x++)
+        {
+          _image[x, y] = ClampToPixel(xPixels[x]);
+        }
       }
     }
 

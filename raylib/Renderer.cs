@@ -42,7 +42,7 @@ namespace raylib
                : new RayTracer(camera, renderData, scene, useKdTree) as IRayTracer;
     }
 
-    public void Render(PixelArray pixelArray, Camera camera, Scene scene, bool useKdTree)
+    public void Render(IPixelArray pixelArray, Camera camera, Scene scene, bool useKdTree)
     {
       Progress?.Invoke(this, new RenderProgressEventArgs(0.0));
 
@@ -54,16 +54,24 @@ namespace raylib
       RenderMultiThreaded(pixelArray, camera, scene, useKdTree);
     }
 
-    private void RenderSingleThreaded(PixelArray pixelArray, Camera camera, Scene scene, bool useKdTree)
+    private void RenderSingleThreaded(IPixelArray pixelArray, Camera camera, Scene scene, bool useKdTree)
     {
       var tracer = CreateRayTracer(camera, _renderData, scene, useKdTree);
 
       for (var y = 0; y < _renderData.Height; y++)
       {
-        for (var x = 0; x < _renderData.Width; x++)
+        try
         {
-          var color = tracer.GetPixelColor(x, y);
-          pixelArray.SetPixelColor(x, y, color);
+          pixelArray.Lock();
+          for (var x = 0; x < _renderData.Width; x++)
+          {
+            var color = tracer.GetPixelColor(x, y);
+            pixelArray.SetPixelColor(x, y, color);
+          }
+        }
+        finally
+        {
+          pixelArray.Unlock();
         }
 
         Progress?.Invoke(
@@ -72,7 +80,7 @@ namespace raylib
       }
     }
 
-    private void RenderMultiThreaded(PixelArray pixelArray, Camera camera, Scene scene, bool useKdTree)
+    private void RenderMultiThreaded(IPixelArray pixelArray, Camera camera, Scene scene, bool useKdTree)
     {
       var rayTracer = CreateRayTracer(camera, _renderData, scene, useKdTree);
       ThreadPool.SetMinThreads(rayTracer.RenderData.NumThreads * 3, rayTracer.RenderData.NumThreads * 3);
@@ -119,7 +127,7 @@ namespace raylib
     }
 
     private void ResultFunc(
-      PixelArray pixelArray,
+      IPixelArray pixelArray,
       ConcurrentQueue<RenderLineResult> resultQueue,
       AutoResetEvent queueDataAvailableEvent)
     {
@@ -133,14 +141,13 @@ namespace raylib
       {
         queueDataAvailableEvent.WaitOne();
 
+        try
+        {
+        pixelArray.Lock();
         while (resultQueue.TryDequeue(out var renderLineResult))
         {
           // assert pixelArray.Width == renderLineResult.Count
-          for (var x = 0; x < pixelArray.Width; x++)
-          {
-            pixelArray.SetPixelColor(x, renderLineResult.Y, renderLineResult.RowPixels[x]);
-          }
-
+          pixelArray.SetPixelRowColors(renderLineResult.Y, renderLineResult.RowPixels);
           incompleteRows.Remove(renderLineResult.Y);
 
           var totalRows = Convert.ToDouble(pixelArray.Height);
@@ -151,6 +158,11 @@ namespace raylib
           Progress?.Invoke(
             this,
             new RenderProgressEventArgs(percentComplete));
+        }
+        }
+        finally
+        {
+          pixelArray.Unlock();
         }
       }
     }
